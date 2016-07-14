@@ -52,15 +52,11 @@ classdef zernike
            end 
         end % end constructor 
        
-       % get radial polynomial
+        % get the radial polynomial
         function [output, obj] = getRadialPoly(obj, rho)
             % check for any errors
-            if nargin>0
-                if isvector(rho)
-                    obj.rho = rho(:);
-                else
-                    error('The radial distance must be a vector.');
-                end
+            if nargin>1
+                obj.rho = rho;
             end
             % obtain the order and repetition
             n = obj.order;
@@ -74,6 +70,27 @@ classdef zernike
               output = output + c * obj.rho.^(n-2*s);
             end  
         end % end getRadialPoly method
+        
+        % get the Zernike moment
+        function [output, obj] = getZernikeMoment(obj, img)
+            
+            [N, M] = size(img);
+            x = 1:M; 
+            y = 1:N;
+            [X,Y] = meshgrid(x,y);
+            %TODO there is a bug probably here
+            [theta, r] = cart2pol((X -(M-1)/2)/M, (Y-(N-1)/2)/N);
+            obj.rho = (r<=1) .* r;
+            
+            R = obj.getRadialPoly();        % get the radial polynomial
+
+            Product = img(y,x).*R.*exp(-1i * obj.repetition * theta);
+            output = sum(Product(:));       % calculate the moments
+
+            cnt = nnz(R)+1;                 % count the number of pixels inside the unit circle
+            output = (obj.order+1)*output/cnt; % normalize the amplitude of moments
+            
+        end % end getZernikeMoments method
        
    end
 end

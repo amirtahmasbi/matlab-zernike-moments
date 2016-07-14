@@ -17,7 +17,7 @@ classdef zernike
 %     diagnosis, Comput. Biol. Med., vol. 43, no. 1, pp. 32-41, 2013.
 % 
 % Purpose:
-%   Claculate Zernike polynomials and moments of order n and repetition m 
+%   Calculate Zernike polynomials and moments of order n and repetition m 
 %
 % Class properties:
 %   order       (non-negative scalar)

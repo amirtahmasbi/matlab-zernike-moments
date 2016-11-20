@@ -20,6 +20,7 @@
 %
 % Revision history:
 %   7/13/2016 - Created from existing code.
+%   11/19/2016 - Minor cosmatic enhancements.
 %
 % -------------------------------------------------------------------------
 clc; close all;
@@ -29,12 +30,14 @@ n = 0:4;            % range of the desired orders for radial polynomials
 
 rho = 0:0.01:1;     % range of radial distance 
 
-% -----------------
-
+% end user input segment
+% -------------------------------------------------------------------------
+frm = {'-r', '--k', '-g', '--g', '-b', '--b', '-m', '--m', '-.m'};
+cnt = 1;
 % initialize m
 data = [];
 % dummy plot (place holder for the first entry of the legend)
-plot(0,0, 'color', [0 0 0]); hold on; grid on;
+plot(0,0, 'w'); hold on; grid on;
 
 for i=1:length(n)
     for m=0:n(i)
@@ -42,7 +45,8 @@ for i=1:length(n)
             myZernike = zernike(n(i),m);
             data = [data; n(i),m];         %#ok
             R = myZernike.getRadialPoly(rho);
-            plot(rho, R, 'Linewidth', 1);
+            plot(rho, R, frm{cnt}, 'Linewidth', 1);
+            cnt = cnt + 1;
         end
     end
 end
